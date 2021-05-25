@@ -5,6 +5,10 @@ type Query {
   authors: [AuthorType!]
 }
 
+type Mutation {
+  addAuthor(name: String, age: Int): AuthorType
+}
+
 type BookType {
   id: ID!
   title: String

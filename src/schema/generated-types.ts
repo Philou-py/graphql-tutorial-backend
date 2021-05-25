@@ -27,6 +27,17 @@ export type BookType = {
   author?: Maybe<AuthorType>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  addAuthor?: Maybe<AuthorType>;
+};
+
+
+export type MutationAddAuthorArgs = {
+  name?: Maybe<Scalars['String']>;
+  age?: Maybe<Scalars['Int']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   book?: Maybe<BookType>;
