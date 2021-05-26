@@ -1,6 +1,8 @@
-export default interface Book {
-  id: String;
-  title: String;
-  genre: String;
-  authorID: String;
+import { Document } from "mongoose";
+
+export default interface BookDocument extends Document {
+  id: string;
+  title: string;
+  genre: string;
+  authorID: string;
 }

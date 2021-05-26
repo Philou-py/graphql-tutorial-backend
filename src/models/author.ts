@@ -1,9 +1,9 @@
 import { Schema, model, Document } from "mongoose";
-import Author from "../interfaces/Author";
+import AuthorDocument from "../interfaces/Author";
 
 const AuthorSchema = new Schema({
   name: String,
   age: Number,
 });
 
-export default model<Document<Author>>("Author", AuthorSchema);
+export default model<AuthorDocument>("Author", AuthorSchema);
