@@ -3,23 +3,40 @@ type Query {
   books: [BookType!]
   author(id: ID!): AuthorType
   authors: [AuthorType!]
+  currentUser: UserType
 }
 
 type Mutation {
   addAuthor(name: String, age: Int): AuthorType
-  addBook(title: String, genre: String, authorID: String): BookType
+  addBook(title: String, genre: String, authorId: String, ownerId: String): BookType
+  signup(name: String!, email: String!, password: String!): AuthPayload
+  login(email: String!, password: String!): AuthPayload
 }
 
 type BookType {
   id: ID!
-  title: String
+  title: String!
   genre: String
-  author: AuthorType
+  author: AuthorType!
+  owner: UserType
 }
 
 type AuthorType {
   id: ID!
-  name: String
+  name: String!
   age: Int
   books: [BookType!]
+}
+
+type UserType {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  books: [BookType!]
+}
+
+type AuthPayload {
+  token: String!
+  user: UserType
 }

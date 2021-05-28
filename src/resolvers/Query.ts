@@ -1,6 +1,8 @@
 import { QueryBookArgs, QueryAuthorArgs } from "../schema/generated-types";
 import BookModel from "../models/book";
 import AuthorModel from "../models/author";
+import UserModel from "../models/user";
+import { Request } from "express";
 
 export default {
   book(parent: undefined, args: QueryBookArgs) {
@@ -17,5 +19,15 @@ export default {
 
   authors() {
     return AuthorModel.find();
+  },
+
+  currentUser(
+    parent: undefined,
+    args: undefined,
+    context: { req: Request; userId: string | null }
+  ) {
+    if (context.userId) {
+      return UserModel.findById(context.userId);
+    }
   },
 };

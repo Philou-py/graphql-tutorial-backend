@@ -3,6 +3,6 @@ import AuthorDocument from "../interfaces/Author";
 
 export default {
   books(parent: AuthorDocument) {
-    return BookModel.find({ authorID: parent.id });
+    return BookModel.find({ authorId: parent.id });
   },
 };

@@ -1,12 +1,26 @@
 import dotenv from "dotenv";
 import express from "express";
 import { connect } from "mongoose";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, PubSub } from "apollo-server-express";
 import { typeDefs, resolvers } from "./schema/schema";
+import { getUserId } from "./utils";
 
 dotenv.config();
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const pubsub = new PubSub();
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => {
+    return {
+      ...req,
+      pubsub,
+      userId: req && req.headers.authorization ? getUserId(req) : null,
+    };
+  },
+});
+
 server.start().then(() => {
   const app = express();
   server.applyMiddleware({ app });

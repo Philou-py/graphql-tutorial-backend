@@ -11,10 +11,16 @@ export type Scalars = {
   Float: number;
 };
 
+export type AuthPayload = {
+  __typename?: 'AuthPayload';
+  token: Scalars['String'];
+  user?: Maybe<UserType>;
+};
+
 export type AuthorType = {
   __typename?: 'AuthorType';
   id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   age?: Maybe<Scalars['Int']>;
   books?: Maybe<Array<BookType>>;
 };
@@ -22,15 +28,18 @@ export type AuthorType = {
 export type BookType = {
   __typename?: 'BookType';
   id: Scalars['ID'];
-  title?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
   genre?: Maybe<Scalars['String']>;
-  author?: Maybe<AuthorType>;
+  author: AuthorType;
+  owner?: Maybe<UserType>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   addAuthor?: Maybe<AuthorType>;
   addBook?: Maybe<BookType>;
+  signup?: Maybe<AuthPayload>;
+  login?: Maybe<AuthPayload>;
 };
 
 
@@ -43,7 +52,21 @@ export type MutationAddAuthorArgs = {
 export type MutationAddBookArgs = {
   title?: Maybe<Scalars['String']>;
   genre?: Maybe<Scalars['String']>;
-  authorID?: Maybe<Scalars['String']>;
+  authorId?: Maybe<Scalars['String']>;
+  ownerId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationSignupArgs = {
+  name: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type Query = {
@@ -52,6 +75,7 @@ export type Query = {
   books?: Maybe<Array<BookType>>;
   author?: Maybe<AuthorType>;
   authors?: Maybe<Array<AuthorType>>;
+  currentUser?: Maybe<UserType>;
 };
 
 
@@ -62,4 +86,13 @@ export type QueryBookArgs = {
 
 export type QueryAuthorArgs = {
   id: Scalars['ID'];
+};
+
+export type UserType = {
+  __typename?: 'UserType';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+  books?: Maybe<Array<BookType>>;
 };
