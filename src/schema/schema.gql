@@ -13,6 +13,11 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload
 }
 
+type Subscription {
+  newAuthor: AuthorType
+  newBook: BookType
+}
+
 type BookType {
   id: ID!
   title: String!

@@ -12,6 +12,11 @@ const pubsub = new PubSub();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  // subscriptions: {
+  //   onConnect: () => {
+  //     console.log("Connected!");
+  //   },
+  // },
   context: ({ req }) => {
     return {
       ...req,
@@ -33,7 +38,9 @@ server.start().then(() => {
     }
   ).then(() => {
     console.log("Database successfully connected!");
-    app.listen(3000, () => {
+    const httpServer = app.listen(3000, () => {
+      // See https://www.apollographql.com/docs/apollo-server/data/subscriptions/#using-with-middleware-integrations
+      server.installSubscriptionHandlers(httpServer);
       console.log(`🚀 Server ready at http://localhost:3000${server.graphqlPath}`);
       return { server, app };
     });

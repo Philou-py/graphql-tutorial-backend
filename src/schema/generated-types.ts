@@ -88,6 +88,12 @@ export type QueryAuthorArgs = {
   id: Scalars['ID'];
 };
 
+export type Subscription = {
+  __typename?: 'Subscription';
+  newAuthor?: Maybe<AuthorType>;
+  newBook?: Maybe<BookType>;
+};
+
 export type UserType = {
   __typename?: 'UserType';
   id: Scalars['ID'];

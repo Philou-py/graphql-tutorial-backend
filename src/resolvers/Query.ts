@@ -2,7 +2,7 @@ import { QueryBookArgs, QueryAuthorArgs } from "../schema/generated-types";
 import BookModel from "../models/book";
 import AuthorModel from "../models/author";
 import UserModel from "../models/user";
-import { Request } from "express";
+import ResolverContext from "../interfaces/ResolverContext";
 
 export default {
   book(parent: undefined, args: QueryBookArgs) {
@@ -21,11 +21,7 @@ export default {
     return AuthorModel.find();
   },
 
-  currentUser(
-    parent: undefined,
-    args: undefined,
-    context: { req: Request; userId: string | null }
-  ) {
+  currentUser(parent: undefined, args: undefined, context: ResolverContext) {
     if (context.userId) {
       return UserModel.findById(context.userId);
     }
