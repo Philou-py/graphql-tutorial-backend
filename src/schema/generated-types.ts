@@ -50,9 +50,9 @@ export type MutationAddAuthorArgs = {
 
 
 export type MutationAddBookArgs = {
-  title?: Maybe<Scalars['String']>;
-  genre?: Maybe<Scalars['String']>;
-  authorId?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
+  genre: Scalars['String'];
+  authorId: Scalars['String'];
   ownerId?: Maybe<Scalars['String']>;
 };
 

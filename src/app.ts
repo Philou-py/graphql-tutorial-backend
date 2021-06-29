@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
-import express from "express";
 import { connect } from "mongoose";
-import { ApolloServer, PubSub } from "apollo-server-express";
+import { ApolloServer, PubSub } from "apollo-server";
 import { typeDefs, resolvers } from "./schema/schema";
 import { getUserId } from "./utils";
 
@@ -14,7 +13,7 @@ const server = new ApolloServer({
   resolvers,
   // subscriptions: {
   //   onConnect: () => {
-  //     console.log("Connected!");
+  //     console.log("New subscription!");
   //   },
   // },
   context: ({ req }) => {
@@ -26,23 +25,18 @@ const server = new ApolloServer({
   },
 });
 
-server.start().then(() => {
-  const app = express();
-  server.applyMiddleware({ app });
-
-  connect(
-    `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:27017/graphql-tutorial?authSource=admin`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  ).then(() => {
+connect(
+  `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:27017/graphql-tutorial`,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    authSource: "admin",
+  }
+)
+  .then(() => {
     console.log("Database successfully connected!");
-    const httpServer = app.listen(3000, () => {
-      // See https://www.apollographql.com/docs/apollo-server/data/subscriptions/#using-with-middleware-integrations
-      server.installSubscriptionHandlers(httpServer);
-      console.log(`🚀 Server ready at http://localhost:3000${server.graphqlPath}`);
-      return { server, app };
+    server.listen().then(({ url }) => {
+      console.log(`🚀 Apollo Server ready at ${url}`);
     });
-  });
-});
+  })
+  .catch((error) => console.log(error));

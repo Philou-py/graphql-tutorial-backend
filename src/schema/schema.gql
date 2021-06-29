@@ -1,20 +1,50 @@
 type Query {
-  book(id: ID!): BookType
+  # Query a single book with its id
+  book(
+    # The book's id
+    id: ID!
+  ): BookType
+
+  # Query all books
   books: [BookType!]
-  author(id: ID!): AuthorType
+
+  # Query one author's details with its id
+  author(
+    # The author's id
+    id: ID!
+  ): AuthorType
+
+  # Retrieve all authors
   authors: [AuthorType!]
+
+  # Get informations about the currently signed in user
   currentUser: UserType
 }
 
 type Mutation {
-  addAuthor(name: String, age: Int): AuthorType
-  addBook(title: String, genre: String, authorId: String, ownerId: String): BookType
+  # Add an author
+  addAuthor(
+    # The name of the author
+    name: String
+    # The age of the author
+    age: Int
+  ): AuthorType
+
+  # Add a book
+  addBook(title: String!, genre: String!, authorId: String!, ownerId: String): BookType
+
+  # Create a new user and get JWT
   signup(name: String!, email: String!, password: String!): AuthPayload
+
+  # Check credentials and get JWT
   login(email: String!, password: String!): AuthPayload
 }
 
 type Subscription {
+  # Get in real-time the new authors
   newAuthor: AuthorType
+
+  # Get in real-time the new books
   newBook: BookType
 }
 
